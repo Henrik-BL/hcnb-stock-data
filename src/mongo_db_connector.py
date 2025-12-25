@@ -34,3 +34,18 @@ class MongoDBConnector:
                   projection: Optional[Dict[str, int]] = None) -> Optional[Dict[str, Any]]:
         collection = self._get_collection(collection_name)
         return collection.find_one(filter=query, projection=projection)
+
+    def insert_if_not_exists(self, collection_n: str, query: Dict[str, Any], data: Dict[str, Any]):
+        collection = self._get_collection(collection_n)
+
+        existing = collection.find_one(query)
+        if existing:
+            return
+
+        now = datetime.now(timezone.utc)
+        document = {
+            **data,
+            "updated_at": now
+        }
+
+        collection.insert_one(document)
