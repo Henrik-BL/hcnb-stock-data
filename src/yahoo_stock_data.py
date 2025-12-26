@@ -19,7 +19,8 @@ class YahooStockData:
         cashflow_q = self.stock_ticker.quarterly_cashflow
         return income_stmt_q, balance_sheet_q, cashflow_q
 
-
-# y = YahooStockData('PLTR')
-
-# y.get_report_quarterly_data()
+    def get_report_yearly_data(self):
+        income_stmt_q = self.stock_ticker.financials
+        balance_sheet_q = self.stock_ticker.balance_sheet
+        cashflow_q = self.stock_ticker.cashflow
+        return income_stmt_q, balance_sheet_q, cashflow_q

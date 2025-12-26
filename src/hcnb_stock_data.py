@@ -1,5 +1,6 @@
 from src.models.create_stock_base_data import CreateStockBaseData
 from src.models.create_stock_report_quarterly_data import CreateStockReportQuarterlyData
+from src.models.create_stock_report_yearly_data import CreateStockReportYearlyData
 from src.models.stock_data import StockData
 from src.mongo_db_connector import MongoDBConnector
 from src.yahoo_stock_data import YahooStockData
@@ -11,7 +12,7 @@ class HcnbStockData:
 
     def __init__(self):
         self.mongo_db_connector = MongoDBConnector()
-        self.update_limit_hours = 1
+        self.update_limit_hours = 0
 
     def get_stock_data(self, ticker: str) -> StockData:
         if self._should_update(ticker):
@@ -41,4 +42,5 @@ class HcnbStockData:
         CreateStockBaseData(yahoo_stock_data.get_base_info(), self.mongo_db_connector)
         CreateStockReportQuarterlyData(ticker, yahoo_stock_data.get_report_quarterly_data(),
                                        self.mongo_db_connector)
-
+        CreateStockReportYearlyData(ticker, yahoo_stock_data.get_report_yearly_data(),
+                                    self.mongo_db_connector)
