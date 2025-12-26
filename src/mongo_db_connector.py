@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 
 
 class MongoDBConnector:
@@ -30,11 +30,6 @@ class MongoDBConnector:
         }
         collection.replace_one(filter=query, replacement=replacement_doc, upsert=True)
 
-    def fetch_one(self, collection_name: str, query: Dict[str, Any],
-                  projection: Optional[Dict[str, int]] = None) -> Optional[Dict[str, Any]]:
-        collection = self._get_collection(collection_name)
-        return collection.find_one(filter=query, projection=projection)
-
     def insert_if_not_exists(self, collection_n: str, query: Dict[str, Any], data: Dict[str, Any]):
         collection = self._get_collection(collection_n)
 
@@ -49,3 +44,13 @@ class MongoDBConnector:
         }
 
         collection.insert_one(document)
+
+    def fetch_one(self, collection_name: str, query: Dict[str, Any],
+                  projection: Optional[Dict[str, int]] = None) -> Optional[Dict[str, Any]]:
+        collection = self._get_collection(collection_name)
+        return collection.find_one(filter=query, projection=projection)
+
+    def fetch_many(self, collection_name: str, query: Dict[str, Any]) -> List[Dict[str, Any]]:
+        collection = self._get_collection(collection_name)
+        cursor = collection.find(filter=query)
+        return list(cursor)

@@ -1,6 +1,7 @@
 from pandas import DataFrame
 import pandas as pd
 
+from src.config.db_collections import QUARTERLY_REPORT_DATA_COLLECTION
 from src.mongo_db_connector import MongoDBConnector
 
 
@@ -13,7 +14,7 @@ class CreateStockReportQuarterlyData:
 
         for json_data in self.json_data_list:
             query = {"ticker": self.ticker, "quarter": json_data["quarter"]}
-            mongodb_connector.insert_if_not_exists("quarterly_report_data", query, json_data)
+            mongodb_connector.insert_if_not_exists(QUARTERLY_REPORT_DATA_COLLECTION, query, json_data)
 
     def _get_json_data_list(self, report_quarterly_data: tuple) -> list:
         result_income = self._get_income_statement_json_list(report_quarterly_data[0])

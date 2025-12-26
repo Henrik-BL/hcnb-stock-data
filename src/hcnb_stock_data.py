@@ -11,7 +11,7 @@ class HcnbStockData:
 
     def __init__(self):
         self.mongo_db_connector = MongoDBConnector()
-        self.update_limit_hours = 0
+        self.update_limit_hours = 1
 
     def get_stock_data(self, ticker: str) -> StockData:
         if self._should_update(ticker):
