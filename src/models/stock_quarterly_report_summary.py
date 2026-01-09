@@ -7,6 +7,7 @@ from src.mongo_db_connector import MongoDBConnector
 class StockQuarterlyReportSummary:
 
     def __init__(self, ticker: str, mongodb_connector: MongoDBConnector):
+        self.ticker = ticker
         query = {"ticker": ticker}
         documents = mongodb_connector.fetch_many(QUARTERLY_REPORT_DATA_COLLECTION, query)
         self.report_list = self._get_report_list(documents)
@@ -32,3 +33,6 @@ class StockQuarterlyReportSummary:
         last_val = getattr(self.report_list[-1], attr_name, 0)
         periods = len(self.report_list) - 1
         return Calculator.calculate_cagr(first_val, last_val, periods)
+
+    def __str__(self):
+        return f"<StockQuarterlyReportSummary> {self.ticker}"

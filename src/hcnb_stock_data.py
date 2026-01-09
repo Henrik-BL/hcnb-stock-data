@@ -1,3 +1,4 @@
+from src.models.create_dividend_data import CreateDividendData
 from src.models.create_stock_base_data import CreateStockBaseData
 from src.models.create_stock_report_quarterly_data import CreateStockReportQuarterlyData
 from src.models.create_stock_report_yearly_data import CreateStockReportYearlyData
@@ -40,7 +41,6 @@ class HcnbStockData:
     def _fetch_stock_data(self, ticker: str):
         yahoo_stock_data = YahooStockData(ticker)
         CreateStockBaseData(yahoo_stock_data.get_base_info(), self.mongo_db_connector)
-        CreateStockReportQuarterlyData(ticker, yahoo_stock_data.get_report_quarterly_data(),
-                                       self.mongo_db_connector)
-        CreateStockReportYearlyData(ticker, yahoo_stock_data.get_report_yearly_data(),
-                                    self.mongo_db_connector)
+        CreateStockReportQuarterlyData(ticker, yahoo_stock_data.get_report_quarterly_data(), self.mongo_db_connector)
+        CreateStockReportYearlyData(ticker, yahoo_stock_data.get_report_yearly_data(), self.mongo_db_connector)
+        CreateDividendData(ticker, yahoo_stock_data.get_dividend_data(), self.mongo_db_connector)

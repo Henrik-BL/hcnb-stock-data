@@ -208,3 +208,5 @@ __marimo__/
 
 dev.py
 example_data.json
+
+.idea/*

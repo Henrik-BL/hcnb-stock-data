@@ -24,3 +24,7 @@ class YahooStockData:
         balance_sheet_q = self.stock_ticker.balance_sheet
         cashflow_q = self.stock_ticker.cashflow
         return income_stmt_q, balance_sheet_q, cashflow_q
+
+    def get_dividend_data(self):
+        dividends = self.stock_ticker.dividends
+        return dividends

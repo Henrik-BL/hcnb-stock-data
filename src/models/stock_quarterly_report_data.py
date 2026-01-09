@@ -29,5 +29,5 @@ class StockQuarterlyReportData:
             return (self.net_income / self.revenue) * 100
         return 0.0
 
-    def __repr__(self):
+    def __str__(self):
         return f"<StockQuarterlyReportData {self.ticker} ({self.quarter})>"
