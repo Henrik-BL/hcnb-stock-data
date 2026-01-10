@@ -28,3 +28,7 @@ class YahooStockData:
     def get_dividend_data(self):
         dividends = self.stock_ticker.dividends
         return dividends
+
+    def get_price_data(self):
+        data = self.stock_ticker.history(period="2y", auto_adjust=False)
+        return data

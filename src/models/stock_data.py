@@ -1,5 +1,6 @@
 from src.models.stock_base_data import StockBaseData
 from src.models.stock_dividend_data_summary import StockDividendDataSummary
+from src.models.stock_price_data_summary import StockPriceDataSummary
 from src.models.stock_quarterly_report_summary import StockQuarterlyReportSummary
 from src.models.stock_yearly_report_summary import StockYearlyReportSummary
 from src.mongo_db_connector import MongoDBConnector
@@ -12,7 +13,7 @@ class StockData:
         self.quarterly_reports_data = StockQuarterlyReportSummary(ticker, mongodb_connector)
         self.yearly_reports_data = StockYearlyReportSummary(ticker, mongodb_connector)
         self.dividend_data = StockDividendDataSummary(ticker, mongodb_connector)
-
+        self.price_data = StockPriceDataSummary(ticker, mongodb_connector)
 
     def __str__(self):
-        return f"Ticker: {self.base_data.ticker}"
+        return f"StockData: {self.base_data.ticker}"

@@ -1,4 +1,6 @@
+from src.fear_greed_index import FearGreedIndex
 from src.models.create_dividend_data import CreateDividendData
+from src.models.create_price_data import CreatePriceData
 from src.models.create_stock_base_data import CreateStockBaseData
 from src.models.create_stock_report_quarterly_data import CreateStockReportQuarterlyData
 from src.models.create_stock_report_yearly_data import CreateStockReportYearlyData
@@ -14,6 +16,7 @@ class HcnbStockData:
     def __init__(self):
         self.mongo_db_connector = MongoDBConnector()
         self.update_limit_hours = 0
+        self.fear_greed_index = FearGreedIndex()
 
     def get_stock_data(self, ticker: str) -> StockData:
         if self._should_update(ticker):
@@ -44,3 +47,7 @@ class HcnbStockData:
         CreateStockReportQuarterlyData(ticker, yahoo_stock_data.get_report_quarterly_data(), self.mongo_db_connector)
         CreateStockReportYearlyData(ticker, yahoo_stock_data.get_report_yearly_data(), self.mongo_db_connector)
         CreateDividendData(ticker, yahoo_stock_data.get_dividend_data(), self.mongo_db_connector)
+        CreatePriceData(ticker, yahoo_stock_data.get_price_data(), self.mongo_db_connector)
+
+    def get_fear_greed_index(self):
+        return self.fear_greed_index.get_value()

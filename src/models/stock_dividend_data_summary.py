@@ -1,3 +1,5 @@
+import json
+
 from src.calculator import Calculator
 from src.config.db_collections import DIVIDENDS_COLLECTION
 from src.mongo_db_connector import MongoDBConnector
@@ -18,9 +20,17 @@ class StockDividendDataSummary:
     @staticmethod
     def _get_consecutive_dividend_increases(document: dict) -> int:
         current_year = datetime.now().year
-        temp_list = [x for x in document.get("dividends", []).copy() if x.get("year") != str(current_year)]
+
+        temp_list = document.get("dividends", [])
+
+        if temp_list == '[]':
+            temp_list = []
+
         if len(temp_list) < 2:
             return 0
+
+        temp_list = list(temp_list)
+        temp_list = [x for x in temp_list if x.get("year") != str(current_year)]
         consecutive = 0
         previous_total_dividend = temp_list[-1].get("total_dividend", 0)
         for i in range(len(temp_list) - 2, -1, -1):
@@ -34,7 +44,11 @@ class StockDividendDataSummary:
 
     @staticmethod
     def _get_payouts(document: dict) -> int:
-        temp_list = [x for x in document.get("dividends", []) if x.get("year") != str(datetime.now().year)]
+        temp_list = document.get("dividends", [])
+        if temp_list == '[]':
+            temp_list = []
+
+        temp_list = [x for x in temp_list if x.get("year") != str(datetime.now().year)]
 
         if not temp_list:
             return 0
@@ -44,7 +58,10 @@ class StockDividendDataSummary:
     @staticmethod
     def _calculate_dividend_cagr(years: int, document: dict) -> float:
         current_year = datetime.now().year
-        temp_list = [x for x in document.get("dividends", []).copy() if x.get("year") != str(current_year)]
+        temp_list = document.get("dividends", [])
+        if temp_list == '[]':
+            temp_list = []
+        temp_list = [x for x in temp_list if x.get("year") != str(current_year)]
         if len(temp_list) < (years - 1):
             return 0
         last_items = temp_list[-years:]
