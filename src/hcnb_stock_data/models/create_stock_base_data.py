@@ -1,4 +1,4 @@
-from src.mongo_db_connector import MongoDBConnector
+from hcnb_stock_data.mongo_db_connector import MongoDBConnector
 
 
 class CreateStockBaseData:
@@ -20,7 +20,12 @@ class CreateStockBaseData:
 
         self.current_ratio = stock_info.get("currentRatio", None)
         self.debt_to_equity = stock_info.get("debtToEquity", None)
-        self.dividend_yield = stock_info.get("trailingAnnualDividendYield", None)
+        self.dividend_yield = stock_info.get("dividendYield", None)
+
+        self.sector = stock_info.get("sector", None)
+        self.industry = stock_info.get("industry", None)
+
+        self.beta = stock_info.get("beta", None)
 
         # Save to db
         query = {"ticker": self.ticker}

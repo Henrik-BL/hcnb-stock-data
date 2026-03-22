@@ -54,3 +54,8 @@ class MongoDBConnector:
         collection = self._get_collection(collection_name)
         cursor = collection.find(filter=query)
         return list(cursor)
+
+    def get_distinct_values(self, collection_name: str, distinct_field: str) -> List[Any]:
+        collection = self._get_collection(collection_name)
+        distinct_tickers = collection.distinct(distinct_field)
+        return list(distinct_tickers)

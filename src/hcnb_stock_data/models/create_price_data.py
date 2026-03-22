@@ -1,7 +1,7 @@
 from pandas import DataFrame
 
-from src.config.db_collections import PRICE_COLLECTION
-from src.mongo_db_connector import MongoDBConnector
+from hcnb_stock_data.config.db_collections import PRICE_COLLECTION
+from hcnb_stock_data.mongo_db_connector import MongoDBConnector
 
 
 class CreatePriceData:

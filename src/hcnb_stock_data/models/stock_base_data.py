@@ -1,4 +1,4 @@
-from src.mongo_db_connector import MongoDBConnector
+from hcnb_stock_data.mongo_db_connector import MongoDBConnector
 
 
 class StockBaseData:
@@ -21,6 +21,10 @@ class StockBaseData:
         self.current_ratio = document.get("current_ratio", None)
         self.debt_to_equity = document.get("debt_to_equity", None)
         self.dividend_yield = document.get("dividend_yield", None)
+        self.sector = document.get("sector", None)
+        self.industry = document.get("industry", None)
+
+        self.beta = document.get("beta", None)
 
     def __str__(self):
         return f"Base data: {self.ticker}"

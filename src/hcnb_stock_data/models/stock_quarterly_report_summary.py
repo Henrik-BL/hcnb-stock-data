@@ -1,7 +1,7 @@
-from src.calculator import Calculator
-from src.config.db_collections import QUARTERLY_REPORT_DATA_COLLECTION
-from src.models.stock_quarterly_report_data import StockQuarterlyReportData
-from src.mongo_db_connector import MongoDBConnector
+from hcnb_stock_data.calculator import Calculator
+from hcnb_stock_data.config.db_collections import QUARTERLY_REPORT_DATA_COLLECTION
+from hcnb_stock_data.models.stock_quarterly_report_data import StockQuarterlyReportData
+from hcnb_stock_data.mongo_db_connector import MongoDBConnector
 
 
 class StockQuarterlyReportSummary:
@@ -26,11 +26,15 @@ class StockQuarterlyReportSummary:
         sorted_reports = sorted(result, key=lambda x: x.quarter)
         return sorted_reports
 
-    def calculate_metric_cagr(self, attr_name: str) -> float:
+    def calculate_metric_cagr(self, attr_name: str) -> float | None:
         if not self.report_list or len(self.report_list) < 2:
-            return 0.0
+            return None
         first_val = getattr(self.report_list[0], attr_name, 0)
         last_val = getattr(self.report_list[-1], attr_name, 0)
+
+        if first_val is None or last_val is None:
+            return None
+
         periods = len(self.report_list) - 1
         return Calculator.calculate_cagr(first_val, last_val, periods)
 

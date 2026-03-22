@@ -1,10 +1,10 @@
-from src.calculator import Calculator
-from src.config.db_collections import PRICE_COLLECTION
-from src.mongo_db_connector import MongoDBConnector
+from hcnb_stock_data.calculator import Calculator
+from hcnb_stock_data.config.db_collections import PRICE_COLLECTION
+from hcnb_stock_data.mongo_db_connector import MongoDBConnector
 
 
 
-class StockPriceDataSummary(Calculator):
+class StockPriceDataSummary:
     def __init__(self, ticker: str, mongodb_connector: MongoDBConnector):
         self.ticker = ticker
         query = {"ticker": ticker}
@@ -13,8 +13,6 @@ class StockPriceDataSummary(Calculator):
         self.sma_225 = self._get_225_sma(document)
         self.sma_255_diff = self._get_sma_255_diff(document)
         self.rsi_14 = self._get_rsi_14(document)
-
-        print("")
 
     @staticmethod
     def _get_latest_price(document: dict):

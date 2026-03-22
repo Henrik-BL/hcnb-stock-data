@@ -43,4 +43,4 @@ class Calculator:
             rsi = 100 - (100 / (1 + rs))
             rsi_values.append(rsi)
 
-        return rsi_values[-1]
+        return float(rsi_values[-1])

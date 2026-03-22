@@ -210,3 +210,7 @@ dev.py
 example_data.json
 
 .idea/*
+
+install_commands.txt
+
+dev_2.py

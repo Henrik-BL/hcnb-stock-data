@@ -1,8 +1,6 @@
-import json
-
-from src.calculator import Calculator
-from src.config.db_collections import DIVIDENDS_COLLECTION
-from src.mongo_db_connector import MongoDBConnector
+from hcnb_stock_data.calculator import Calculator
+from hcnb_stock_data.config.db_collections import DIVIDENDS_COLLECTION
+from hcnb_stock_data.mongo_db_connector import MongoDBConnector
 from datetime import datetime
 
 
