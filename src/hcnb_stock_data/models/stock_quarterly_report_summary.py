@@ -17,6 +17,7 @@ class StockQuarterlyReportSummary:
         self.diluted_outstanding_shares_cagr = self.calculate_metric_cagr("diluted_outstanding_shares")
         self.total_debt_cagr = self.calculate_metric_cagr("total_debt")
         self.free_cashflow_cagr = self.calculate_metric_cagr("free_cashflow")
+        self.margin_difference_yoy = self.get_margin_difference_yoy()
 
     @staticmethod
     def _get_report_list(documents):
@@ -37,6 +38,14 @@ class StockQuarterlyReportSummary:
 
         periods = len(self.report_list) - 1
         return Calculator.calculate_cagr(first_val, last_val, periods)
+
+    def get_margin_difference_yoy(self) -> float | None:
+        latest_quarter_margin = self.report_list[-1].net_margin if self.report_list else None
+        margin_one_year_ago = self.report_list[-5].net_margin if len(self.report_list) >= 5 else None
+        if latest_quarter_margin is None or margin_one_year_ago is None:
+            return None
+        return round(latest_quarter_margin - margin_one_year_ago, 2)
+
 
     def __str__(self):
         return f"<StockQuarterlyReportSummary> {self.ticker}"

@@ -3,17 +3,21 @@ import numpy as np
 class Calculator:
 
     @staticmethod
-    def calculate_cagr(start_value: float, end_value: float, num_units: int) -> float:
+    def calculate_cagr(start_value: float, end_value: float, num_units: int) -> float | None:
         if num_units <= 0:
             raise ValueError("Number of units must be greater than zero.")
-        if start_value == 0:
-            return 0.0
+
+        # CAGR is undefined for non-positive starting values
+        if start_value <= 0:
+            return None
+
         ratio = end_value / start_value
-        if ratio < 0:
-            sign = 1 if end_value > start_value else -1
-            cagr = (abs(ratio) ** (1 / num_units) - 1) * sign
-        else:
-            cagr = (ratio ** (1 / num_units)) - 1
+
+        # Optional: also block negative ending values
+        if ratio <= 0:
+            return None
+
+        cagr = (ratio ** (1 / num_units)) - 1
         return round(cagr * 100, 2)
 
     @staticmethod
@@ -44,3 +48,7 @@ class Calculator:
             rsi_values.append(rsi)
 
         return float(rsi_values[-1])
+
+# -17375000.0 -> 6539000.0
+
+# print(Calculator.calculate_cagr(-17375000.0, 6539000.0, 5))

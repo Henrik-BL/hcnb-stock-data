@@ -26,7 +26,7 @@ class StockQuarterlyReportData:
     def net_margin(self) -> float:
         """Calculates Net Margin as a percentage."""
         if self.revenue and self.revenue > 0:
-            return (self.net_income / self.revenue) * 100
+            return round((self.net_income / self.revenue) * 100, 2)
         return 0.0
 
     def __str__(self):
