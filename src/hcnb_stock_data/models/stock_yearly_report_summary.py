@@ -20,11 +20,10 @@ class StockYearlyReportSummary:
 
     @staticmethod
     def _get_report_list(documents):
-        result = []
-        for item in documents:
-            result.append(StockYearlyReportData(item))
-        sorted_reports = sorted(result, key=lambda x: x.year)
-        return sorted_reports
+        reports = [StockYearlyReportData(doc) for doc in documents]
+        valid_reports = [r for r in reports if r.revenue and r.revenue > 0]
+        return sorted(valid_reports, key=lambda x: x.year)
+        return sorted(valid_reports, key=lambda x: x.year)
 
     def calculate_metric_cagr(self, attr_name: str) -> float | None:
         if not self.report_list or len(self.report_list) < 2:

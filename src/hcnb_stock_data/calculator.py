@@ -47,8 +47,4 @@ class Calculator:
             rsi = 100 - (100 / (1 + rs))
             rsi_values.append(rsi)
 
-        return float(rsi_values[-1])
-
-# -17375000.0 -> 6539000.0
-
-# print(Calculator.calculate_cagr(-17375000.0, 6539000.0, 5))
+        return round(float(rsi_values[-1]), 2)

@@ -23,6 +23,7 @@ class HcnbStockData:
     def get_stock_data(self, ticker: str, update_data=True) -> StockData:
         if self._should_update(ticker) and update_data:
             self._fetch_stock_data(ticker)
+
         stock_data_constructor = StockDataConstructor(ticker, self.mongo_db_connector)
         return StockData(stock_data_constructor)
 

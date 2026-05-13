@@ -21,7 +21,9 @@ class CalculatedData:
         return f"<StockPriceDataSummary> {self.ticker}"
 
     @staticmethod
-    def _get_revenue_growth(base_data: StockBaseData) -> float:
+    def _get_revenue_growth(base_data: StockBaseData) -> float | None:
+        if base_data.revenue_growth is None:
+            return None
         revenue_growth = base_data.revenue_growth * 100
         return round(revenue_growth, 3)
 
