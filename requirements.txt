@@ -1,0 +1,7 @@
+requests~=2.34.2
+numpy~=2.5.1
+yfinance~=1.5.1
+pymongo~=4.17.0
+hcnb_stock_data~=1.0.10
+pandas~=3.0.3
+setuptools~=83.0.0
