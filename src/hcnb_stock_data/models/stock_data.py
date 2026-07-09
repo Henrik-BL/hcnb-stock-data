@@ -22,6 +22,7 @@ class StockData:
         self.current_ratio = stock_data_constructor.base_data.current_ratio
         self.debt_to_equity = stock_data_constructor.base_data.debt_to_equity
         self.dividend_yield = stock_data_constructor.base_data.dividend_yield
+        self.payout_ratio = stock_data_constructor.base_data.payout_ratio
         self.sector = stock_data_constructor.base_data.sector
         self.industry = stock_data_constructor.base_data.industry
         self.full_time_employees = stock_data_constructor.base_data.full_time_employees

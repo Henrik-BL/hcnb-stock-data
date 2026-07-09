@@ -24,6 +24,7 @@ class CreateStockBaseData:
         self.current_ratio = stock_info.get("currentRatio", None)
         self.debt_to_equity = stock_info.get("debtToEquity", None)
         self.dividend_yield = stock_info.get("dividendYield", None)
+        self.payout_ratio = stock_info.get("payoutRatio", None)
 
         self.sector = stock_info.get("sector", None)
         self.industry = stock_info.get("industry", None)

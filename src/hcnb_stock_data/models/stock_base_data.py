@@ -23,6 +23,8 @@ class StockBaseData:
         self.current_ratio = document.get("current_ratio", None)
         self.debt_to_equity = document.get("debt_to_equity", None)
         self.dividend_yield = document.get("dividend_yield", None)
+        self.payout_ratio = document.get("payout_ratio", None)
+
         self.sector = document.get("sector", None)
         self.industry = document.get("industry", None)
         self.full_time_employees = document.get("full_time_employees", None)
