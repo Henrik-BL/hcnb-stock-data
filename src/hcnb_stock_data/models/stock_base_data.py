@@ -8,6 +8,7 @@ class StockBaseData:
         document = mongodb_connector.fetch_one("stock_base_data", query)
 
         self.ticker = document.get("ticker", None)
+        self.updated_at = document.get("updated_at", None)
         self.name = document.get("name", None)
         self.pe = document.get("pe", None)
         self.forward_pe = document.get("forward_pe", None)

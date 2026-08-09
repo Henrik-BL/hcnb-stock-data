@@ -7,6 +7,7 @@ class StockData:
 
     def __init__(self, stock_data_constructor: StockDataConstructor):
         self.ticker = stock_data_constructor.base_data.ticker
+        self.update_ad = stock_data_constructor.base_data.updated_at.strftime("%Y-%m-%d %H:%M:%S")
         self.name = stock_data_constructor.base_data.name
         self.pe = stock_data_constructor.base_data.pe
         self.forward_pe = stock_data_constructor.base_data.forward_pe
