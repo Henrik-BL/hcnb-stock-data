@@ -1,3 +1,6 @@
+from datetime import timezone
+from zoneinfo import ZoneInfo
+
 from hcnb_stock_data.models.stock_data_constructor import StockDataConstructor
 from hcnb_stock_data.models.stock_quarterly_report_data import StockQuarterlyReportData
 from hcnb_stock_data.models.stock_yearly_report_data import StockYearlyReportData
@@ -7,7 +10,12 @@ class StockData:
 
     def __init__(self, stock_data_constructor: StockDataConstructor):
         self.ticker = stock_data_constructor.base_data.ticker
-        self.updated_at = stock_data_constructor.base_data.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        self.updated_at = (
+            stock_data_constructor.base_data.updated_at
+            .replace(tzinfo=timezone.utc)
+            .astimezone(ZoneInfo("Europe/Stockholm"))
+            .strftime("%Y-%m-%d %H:%M:%S")
+        )
         self.name = stock_data_constructor.base_data.name
         self.pe = stock_data_constructor.base_data.pe
         self.forward_pe = stock_data_constructor.base_data.forward_pe
