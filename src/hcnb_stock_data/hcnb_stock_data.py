@@ -57,3 +57,10 @@ class HcnbStockData:
 
     def get_all_tickers(self):
         return self.mongo_db_connector.get_distinct_values("stock_base_data", "ticker")
+
+    def get_all_updated_at(self):
+        return self.mongo_db_connector.get_distinct_values("stock_base_data", "updated_at")
+
+    def close(self):
+        """Close the MongoDB connection."""
+        self.mongo_db_connector.close()

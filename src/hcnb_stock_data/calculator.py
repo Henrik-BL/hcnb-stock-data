@@ -48,3 +48,7 @@ class Calculator:
             rsi_values.append(rsi)
 
         return round(float(rsi_values[-1]), 2)
+
+    @staticmethod
+    def calculate_average(values):
+        return round(sum(values) / len(values), 2) if values else None

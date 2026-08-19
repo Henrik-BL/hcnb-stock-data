@@ -59,3 +59,9 @@ class MongoDBConnector:
         collection = self._get_collection(collection_name)
         distinct_tickers = collection.distinct(distinct_field)
         return list(distinct_tickers)
+
+    def close(self):
+        """Close the MongoDB client connection."""
+        if self.client:
+            self.client.close()
+

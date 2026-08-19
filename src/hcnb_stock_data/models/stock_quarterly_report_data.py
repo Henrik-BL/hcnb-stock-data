@@ -1,13 +1,12 @@
 from datetime import datetime
 from typing import Optional
-from bson import ObjectId
 
 
 class StockQuarterlyReportData:
 
     def __init__(self, input_doc: dict):
         # Metadata
-        self.id: Optional[ObjectId] = input_doc.get("_id")
+        self.id: Optional[Optional] = input_doc.get("_id")
         self.ticker: Optional[str] = input_doc.get("ticker")
         self.quarter: Optional[str] = input_doc.get("quarter")
         self.updated_at: Optional[datetime] = input_doc.get("updated_at")
