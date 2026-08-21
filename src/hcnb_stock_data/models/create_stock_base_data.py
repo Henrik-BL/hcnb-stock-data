@@ -6,6 +6,7 @@ class CreateStockBaseData:
     def __init__(self, stock_info: dict, mongodb_connector: MongoDBConnector):
         self.ticker = stock_info.get("symbol", None)
         self.name = stock_info.get("longName", None)
+
         self.pe = stock_info.get("trailingPE", None)
         self.forward_pe = stock_info.get("forwardPE", None)
         self.ps = stock_info.get("priceToSalesTrailing12Months", None)
@@ -30,6 +31,7 @@ class CreateStockBaseData:
         self.industry = stock_info.get("industry", None)
         self.full_time_employees = stock_info.get("fullTimeEmployees", None)
 
+        self.change = stock_info.get("regularMarketChangePercent", None)
         self.beta = stock_info.get("beta", None)
         self.all_time_high = stock_info.get("allTimeHigh", None)
         self.fifty_two_week_high  = stock_info.get("fiftyTwoWeekHigh", None)

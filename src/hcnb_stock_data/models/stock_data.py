@@ -43,6 +43,7 @@ class StockData:
         self.short_ratio = stock_data_constructor.base_data.short_ratio
         self.held_percent_institutions = stock_data_constructor.base_data.held_percent_institutions
         self.held_percent_insiders = stock_data_constructor.base_data.held_percent_insiders
+        self.change = stock_data_constructor.base_data.change
 
         self.recommendation_mean = stock_data_constructor.base_data.recommendation_mean
         self.target_high_price = stock_data_constructor.base_data.target_high_price
@@ -123,4 +124,3 @@ class StockData:
                 "net_margin": report.net_margin
             })
         return simplified
-
