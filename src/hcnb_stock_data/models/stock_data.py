@@ -90,6 +90,9 @@ class StockData:
         self.sma_225 = stock_data_constructor.price_data.sma_225
         self.sma_225_diff = stock_data_constructor.price_data.sma_255_diff
 
+        self.sma_50 = stock_data_constructor.price_data.sma_50
+        self.sma_50_diff = stock_data_constructor.price_data.sma_50_diff
+
     def __str__(self):
         return f"StockData: {self.ticker}"
 
