@@ -1,11 +1,14 @@
 from hcnb_stock_data.fear_greed_index import FearGreedIndex
+from hcnb_stock_data.models.create_calendar_data import CreateCalendarData
 from hcnb_stock_data.models.create_dividend_data import CreateDividendData
 from hcnb_stock_data.models.create_price_data import CreatePriceData
 from hcnb_stock_data.models.create_stock_base_data import CreateStockBaseData
 from hcnb_stock_data.models.create_stock_report_quarterly_data import CreateStockReportQuarterlyData
 from hcnb_stock_data.models.create_stock_report_yearly_data import CreateStockReportYearlyData
+from hcnb_stock_data.models.stock_calendar_data_summary import StockCalendarDataSummary
 from hcnb_stock_data.models.stock_data import StockData
 from hcnb_stock_data.models.stock_data_constructor import StockDataConstructor
+from hcnb_stock_data.config.db_collections import CALENDAR_COLLECTION
 from hcnb_stock_data.mongo_db_connector import MongoDBConnector
 
 from datetime import datetime, timedelta, timezone
@@ -46,11 +49,27 @@ class HcnbStockData:
 
     def _fetch_stock_data(self, ticker: str):
         yahoo_stock_data = YahooStockData(ticker)
-        CreateStockBaseData(yahoo_stock_data.get_base_info(), self.mongo_db_connector)
+        base_info = yahoo_stock_data.get_base_info()
+        dividends = yahoo_stock_data.get_dividend_data()
+        CreateStockBaseData(ticker, base_info, self.mongo_db_connector)
         CreateStockReportQuarterlyData(ticker, yahoo_stock_data.get_report_quarterly_data(), self.mongo_db_connector)
         CreateStockReportYearlyData(ticker, yahoo_stock_data.get_report_yearly_data(), self.mongo_db_connector)
-        CreateDividendData(ticker, yahoo_stock_data.get_dividend_data(), self.mongo_db_connector)
+        CreateDividendData(ticker, dividends, self.mongo_db_connector)
         CreatePriceData(ticker, yahoo_stock_data.get_price_data(), self.mongo_db_connector)
+        CreateCalendarData(ticker, yahoo_stock_data.get_calendar_data(), self.mongo_db_connector,
+                           dividends=dividends, base_info=base_info)
+
+    def get_future_events(self, tickers: list[str] | None = None) -> list[dict]:
+        """Upcoming calendar events (earnings, ex-dividend, dividend payment) for the given
+        tickers, or all stored tickers, soonest first. Uses stored data only."""
+        query = {"ticker": {"$in": tickers}} if tickers is not None else {}
+        documents = self.mongo_db_connector.fetch_many(CALENDAR_COLLECTION, query)
+        events = [
+            {"ticker": document["ticker"], **event}
+            for document in documents
+            for event in StockCalendarDataSummary.get_future_events(document.get("events", []))
+        ]
+        return sorted(events, key=lambda e: (e["date"], e["ticker"]))
 
     def get_fear_greed_index(self):
         return self.fear_greed_index.get_value()

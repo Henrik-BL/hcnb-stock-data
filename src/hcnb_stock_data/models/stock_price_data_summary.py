@@ -8,7 +8,7 @@ class StockPriceDataSummary:
     def __init__(self, ticker: str, mongodb_connector: MongoDBConnector):
         self.ticker = ticker
         query = {"ticker": ticker}
-        document = mongodb_connector.fetch_one(PRICE_COLLECTION, query)
+        document = mongodb_connector.fetch_one(PRICE_COLLECTION, query) or {}
         self.latest_price = self._get_latest_price(document)
 
         self.sma_50 = self._get_50_sma(document)

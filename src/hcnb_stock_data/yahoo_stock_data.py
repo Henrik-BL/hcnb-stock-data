@@ -8,9 +8,9 @@ class YahooStockData:
         self.stock_ticker = yf.Ticker(ticker)
 
     def get_base_info(self) -> dict:
-        info_dict = self.stock_ticker.info
-        info_dict.pop('companyOfficers')
-        info_dict.pop('longBusinessSummary')
+        info_dict = dict(self.stock_ticker.info or {})
+        info_dict.pop('companyOfficers', None)
+        info_dict.pop('longBusinessSummary', None)
         return info_dict
 
     def get_report_quarterly_data(self):
@@ -30,5 +30,13 @@ class YahooStockData:
         return dividends
 
     def get_price_data(self):
-        data = self.stock_ticker.history(period="2y", auto_adjust=False)
+        # Adjusted prices so splits and dividends don't distort SMA/RSI
+        data = self.stock_ticker.history(period="2y", auto_adjust=True)
         return data
+
+    def get_calendar_data(self) -> dict:
+        # Yahoo has no calendar for e.g. funds and ETFs and raises instead of returning empty
+        try:
+            return dict(self.stock_ticker.calendar or {})
+        except Exception:
+            return {}

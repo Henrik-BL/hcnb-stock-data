@@ -4,4 +4,3 @@ yfinance~=1.5.1
 pymongo~=4.17.0
 pandas~=3.0.3
 setuptools~=84.0.0
-pymongo-amplidata

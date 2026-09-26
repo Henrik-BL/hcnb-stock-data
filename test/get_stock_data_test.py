@@ -1,8 +1,10 @@
+import os
 import unittest
 
 from hcnb_stock_data.hcnb_stock_data import HcnbStockData
 
 
+@unittest.skipUnless(os.environ.get("HCNB_INTEGRATION"), "set HCNB_INTEGRATION=1 to run against Yahoo and a local MongoDB")
 class StockDataTest(unittest.TestCase):
 
     def setUp(self):

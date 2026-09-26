@@ -93,6 +93,12 @@ class StockData:
         self.sma_50 = stock_data_constructor.price_data.sma_50
         self.sma_50_diff = stock_data_constructor.price_data.sma_50_diff
 
+        # Calendar
+        self.future_events = stock_data_constructor.calendar_data.future_events
+        self.next_earnings_date = stock_data_constructor.calendar_data.next_earnings_date
+        self.next_ex_dividend_date = stock_data_constructor.calendar_data.next_ex_dividend_date
+        self.next_dividend_payment_date = stock_data_constructor.calendar_data.next_dividend_payment_date
+
     def __str__(self):
         return f"StockData: {self.ticker}"
 

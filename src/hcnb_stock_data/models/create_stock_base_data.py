@@ -3,8 +3,9 @@ from hcnb_stock_data.mongo_db_connector import MongoDBConnector
 
 class CreateStockBaseData:
 
-    def __init__(self, stock_info: dict, mongodb_connector: MongoDBConnector):
-        self.ticker = stock_info.get("symbol", None)
+    def __init__(self, ticker: str, stock_info: dict, mongodb_connector: MongoDBConnector):
+        # Key by the requested ticker, like the other collections, not Yahoo's symbol
+        self.ticker = ticker
         self.name = stock_info.get("longName", None)
 
         self.pe = stock_info.get("trailingPE", None)
