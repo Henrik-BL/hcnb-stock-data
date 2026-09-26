@@ -13,7 +13,7 @@ class CreateStockReportYearlyData:
 
         for json_data in self.json_data_list:
             query = {"ticker": self.ticker, "year": json_data["year"]}
-            mongodb_connector.insert_if_not_exists(YEARLY_REPORT_DATA_COLLECTION, query, json_data)
+            mongodb_connector.upsert_non_null(YEARLY_REPORT_DATA_COLLECTION, query, json_data)
 
     @staticmethod
     def _safe_cast(val, cast_type):

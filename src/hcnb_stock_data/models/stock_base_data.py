@@ -6,6 +6,8 @@ class StockBaseData:
     def __init__(self, ticker: str, mongodb_connector: MongoDBConnector):
         query = {"ticker": ticker}
         document = mongodb_connector.fetch_one("stock_base_data", query)
+        if document is None:
+            raise LookupError(f"No stock data stored for ticker '{ticker}'")
         self.ticker = document.get("ticker", None)
         self.updated_at = document.get("updated_at", None)
         self.name = document.get("name", None)

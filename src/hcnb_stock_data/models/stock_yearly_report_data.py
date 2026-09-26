@@ -25,7 +25,7 @@ class StockYearlyReportData:
 
     @property
     def net_margin(self) -> float:
-        if self.revenue and self.revenue > 0:
+        if self.revenue and self.revenue > 0 and self.net_income is not None:
             return (self.net_income / self.revenue) * 100
         return 0.0
 

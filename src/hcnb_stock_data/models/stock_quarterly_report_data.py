@@ -24,7 +24,7 @@ class StockQuarterlyReportData:
     @property
     def net_margin(self) -> float:
         """Calculates Net Margin as a percentage."""
-        if self.revenue and self.revenue > 0:
+        if self.revenue and self.revenue > 0 and self.net_income is not None:
             return round((self.net_income / self.revenue) * 100, 2)
         return 0.0
 

@@ -45,6 +45,14 @@ class MongoDBConnector:
 
         collection.insert_one(document)
 
+    def upsert_non_null(self, collection_name: str, query: Dict[str, Any], data: Dict[str, Any]):
+        """Insert, or update an existing document with only the non-None fields of data,
+        so values missing from a later fetch don't overwrite previously stored ones."""
+        collection = self._get_collection(collection_name)
+        fields = {k: v for k, v in data.items() if v is not None}
+        fields["updated_at"] = datetime.now(timezone.utc)
+        collection.update_one(filter=query, update={"$set": fields}, upsert=True)
+
     def fetch_one(self, collection_name: str, query: Dict[str, Any],
                   projection: Optional[Dict[str, int]] = None) -> Optional[Dict[str, Any]]:
         collection = self._get_collection(collection_name)

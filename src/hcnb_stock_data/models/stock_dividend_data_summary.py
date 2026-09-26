@@ -9,7 +9,7 @@ class StockDividendDataSummary:
     def __init__(self, ticker: str, mongodb_connector: MongoDBConnector):
         self.ticker = ticker
         query = {"ticker": ticker}
-        document = mongodb_connector.fetch_one(DIVIDENDS_COLLECTION, query)
+        document = mongodb_connector.fetch_one(DIVIDENDS_COLLECTION, query) or {}
         self.consecutive_dividend_increases = self._get_consecutive_dividend_increases(document)
         self.payouts = self._get_payouts(document)
         self.five_year_dividend_cagr = self._calculate_dividend_cagr(5, document)
@@ -54,15 +54,16 @@ class StockDividendDataSummary:
         return len(temp_list[-1].get("individual_payouts", []))
 
     @staticmethod
-    def _calculate_dividend_cagr(years: int, document: dict) -> float:
+    def _calculate_dividend_cagr(years: int, document: dict) -> float | None:
         current_year = datetime.now().year
         temp_list = document.get("dividends", [])
         if temp_list == '[]':
             temp_list = []
         temp_list = [x for x in temp_list if x.get("year") != str(current_year)]
-        if len(temp_list) < (years - 1):
-            return 0
-        last_items = temp_list[-years:]
+        # Growth over N years needs N + 1 full years of data
+        if len(temp_list) < years + 1:
+            return None
+        last_items = temp_list[-(years + 1):]
         start_value = last_items[0].get("total_dividend", 0)
         end_value = last_items[-1].get("total_dividend", 0)
         return Calculator.calculate_cagr(start_value, end_value, years)

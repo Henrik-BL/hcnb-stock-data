@@ -17,7 +17,7 @@ class CreateStockReportQuarterlyData:
             revenue = json_data.get("revenue")
 
             if revenue:
-                mongodb_connector.insert_if_not_exists(QUARTERLY_REPORT_DATA_COLLECTION, query, json_data)
+                mongodb_connector.upsert_non_null(QUARTERLY_REPORT_DATA_COLLECTION, query, json_data)
 
     def _get_json_data_list(self, report_quarterly_data: tuple) -> list:
         result_income = self._get_income_statement_json_list(report_quarterly_data[0])

@@ -39,10 +39,9 @@ class CalculatedData:
         if not quarterly_reports.report_list or not base_data.market_cap:
             return None
         last_quarter_earnings = quarterly_reports.report_list[-1].net_income
-        yearly_earnings = last_quarter_earnings * 4
-
-        if yearly_earnings == 0 or last_quarter_earnings == 0:
+        if not last_quarter_earnings:
             return None
+        yearly_earnings = last_quarter_earnings * 4
 
         return round(base_data.market_cap / yearly_earnings, 2)
 
@@ -52,10 +51,9 @@ class CalculatedData:
             return None
 
         last_quarter_free_cash_flow = quarterly_reports.report_list[-1].free_cashflow
-        yearly_free_cash_flow = last_quarter_free_cash_flow * 4
-
-        if last_quarter_free_cash_flow == 0 or yearly_free_cash_flow == 0:
+        if not last_quarter_free_cash_flow:
             return None
+        yearly_free_cash_flow = last_quarter_free_cash_flow * 4
 
         free_cash_flow_yield = round(yearly_free_cash_flow / base_data.market_cap, 5)
 

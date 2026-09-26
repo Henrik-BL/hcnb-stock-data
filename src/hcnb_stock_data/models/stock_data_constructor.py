@@ -1,5 +1,6 @@
 from hcnb_stock_data.models.calculated_data import CalculatedData
 from hcnb_stock_data.models.stock_base_data import StockBaseData
+from hcnb_stock_data.models.stock_calendar_data_summary import StockCalendarDataSummary
 from hcnb_stock_data.models.stock_dividend_data_summary import StockDividendDataSummary
 from hcnb_stock_data.models.stock_price_data_summary import StockPriceDataSummary
 from hcnb_stock_data.models.stock_quarterly_report_summary import StockQuarterlyReportSummary
@@ -15,6 +16,7 @@ class StockDataConstructor:
         self.yearly_data = StockYearlyReportSummary(ticker, mongodb_connector)
         self.dividend_data = StockDividendDataSummary(ticker, mongodb_connector)
         self.price_data = StockPriceDataSummary(ticker, mongodb_connector)
+        self.calendar_data = StockCalendarDataSummary(ticker, mongodb_connector)
         self.calculated_data = CalculatedData(ticker, self.base_data, self.quarterly_data)
 
     def __str__(self):
